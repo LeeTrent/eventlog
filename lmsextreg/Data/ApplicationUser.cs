@@ -66,7 +66,7 @@ namespace lmsextreg.Data
         public override String ToString()
         {
             StringBuilder sb = new StringBuilder();
-s           
+          
             sb.Append("[");
             sb.Append("UserName=");
             sb.Append(this.UserName);
