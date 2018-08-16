@@ -189,7 +189,7 @@ namespace lmsextreg.Data
             builder.Entity<EventLog>()
                 .HasOne( el => el.EventType)
                 .WithMany()
-                .HasForeignKey(el => el.EventTypeID);                 
+                .HasForeignKey(el => el.EventTypeCode);                 
 
             /////////////////////////////////////////////////////////////////////////
             // EventLog:
