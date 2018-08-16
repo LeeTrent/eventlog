@@ -7,12 +7,10 @@ namespace lmsextreg.Models
     public class EventType
     {   
         ////////////////////////////////////////////////////////////
-        // EventTypeID:
+        // EventTypeCode:
         // Primary-key (auto-generated)
         ////////////////////////////////////////////////////////////        
-        [Required]
-        public int EventTypeID { get; set; }
-
+        [Key]
         [Required]
         [Display(Name = "Event Type Code")]
         public string EventTypeCode { get; set; }
