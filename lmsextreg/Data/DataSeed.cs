@@ -22,6 +22,7 @@ namespace lmsextreg.Data
             await EnsurePrograms(dbContext);
             await EnsureApprovers(svcProvider, tempPW); 
             //await EnsureStudents(svcProvider, tempPW); 
+            await EnsureEventTypes(dbContext);
             
             Console.WriteLine("DataSeed.Initialize: END");
         }
@@ -352,19 +353,26 @@ namespace lmsextreg.Data
             }
         }
 
-        // private static async Task EnsureEnrollmentStatuses(ApplicationDbContext dbContext)
-        // {
-        //     Console.WriteLine("DataSeed.EnsureEnrollmentStatuses: BEGIN");
+        private static async Task EnsureEventTypes(ApplicationDbContext dbContext)
+        {
+            Console.WriteLine("DataSeed.EnsureEventTypes: BEGIN");
 
-        //     await EnsureEnrollmentStatus(dbContext, StatusCodeConstants.NONE,       StatusLabelConstants.NONE);
-        //     await EnsureEnrollmentStatus(dbContext, StatusCodeConstants.PENDING,    StatusLabelConstants.PENDING);
-        //     await EnsureEnrollmentStatus(dbContext, StatusCodeConstants.WITHDRAWN,  StatusLabelConstants.WITHDRAWN);
-        //     await EnsureEnrollmentStatus(dbContext, StatusCodeConstants.APPROVED,   StatusLabelConstants.APPROVED);
-        //     await EnsureEnrollmentStatus(dbContext, StatusCodeConstants.DENIED,     StatusLabelConstants.DENIED);
-        //     await EnsureEnrollmentStatus(dbContext, StatusCodeConstants.REVOKED,    StatusLabelConstants.REVOKED);
+            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_REGISTERED,        EventTypeLabelConstants.USER_REGISTERED         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.EMAIL_CONFIRMED,        EventTypeLabelConstants.EMAIL_CONFIRMED         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_LOGIN,             EventTypeLabelConstants.USER_LOGIN              );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_LOGOUT,            EventTypeLabelConstants.USER_LOGOUT             );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.FORGOT_PASSWORD,        EventTypeLabelConstants.FORGOT_PASSWORD         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.CHANGED_PASSWORD,       EventTypeLabelConstants.CHANGED_PASSWORD        );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.TWO_FACTOR_ENABLED,     EventTypeLabelConstants.TWO_FACTOR_ENABLED      );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_APPROVED,    EventTypeLabelConstants.ENROLLMENT_APPROVED     );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_DENIED,      EventTypeLabelConstants.ENROLLMENT_DENIED       );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_REVOKED,     EventTypeLabelConstants.ENROLLMENT_REVOKED      );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_REQUSTED,    EventTypeLabelConstants.ENROLLMENT_REQUSTED     );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.REENROLLMENT_REQUSTED,  EventTypeLabelConstants.REENROLLMENT_REQUSTED   );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_WITHDRAWN,   EventTypeLabelConstants.ENROLLMENT_WITHDRAWN    );
 
-        //     Console.WriteLine("DataSeed.EnsureEnrollmentStatuses: END");
-        // }         
+            Console.WriteLine("DataSeed.EnsureEventTypes: END");
+        }         
 
         private static async Task EnsureEventType(ApplicationDbContext dbContext, string eventTypeCode, string eventTypeLabel)
         {
@@ -375,7 +383,7 @@ namespace lmsextreg.Data
             {
                 eventType = new EventType
                 {
-                    EventTypeCode = eventTypeCode,
+                    EventTypeCode  = eventTypeCode,
                     EventTypeLabel = eventTypeLabel
                 };
 
@@ -385,6 +393,5 @@ namespace lmsextreg.Data
 
             Console.WriteLine("DataSeed.EnsureEnrollmentStatus: END");
         }    
-
      }
 }
