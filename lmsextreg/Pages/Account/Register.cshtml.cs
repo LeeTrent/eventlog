@@ -176,10 +176,14 @@ namespace lmsextreg.Pages.Account
                     RulesOfBehaviorAgreedTo = Input.RulesOfBehaviorAgreedTo
                 };
 
+                ///////////////////////////////////////////////////////////////////
                 // Create User
+                ///////////////////////////////////////////////////////////////////
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
+                ///////////////////////////////////////////////////////////////////
                 // Create User Role 
+                ///////////////////////////////////////////////////////////////////
                 if (result.Succeeded)
                 {
                     result = await _userManager.AddToRoleAsync(user, RoleConstants.STUDENT);
@@ -195,6 +199,28 @@ namespace lmsextreg.Pages.Account
 
                     //await _signInManager.SignInAsync(user, isPersistent: false);
                     //return LocalRedirect(Url.GetLocalUrl(returnUrl));
+
+                    ///////////////////////////////////////////////////////////////////
+                    // Create EventLog record with Event Type of 'USER_REGISTERED'
+                    ///////////////////////////////////////////////////////////////////
+                    var eventLog = new EventLog
+                    {
+                        EventTypeCode   = EventTypeCodeConstants.USER_REGISTERED,
+                        UserCreatedID   = user.Id,
+                        UserCreatedName = user.UserName,
+                        DataValues      = user.ToString(),
+                        DateTimeCreated = DateTime.Now
+                    };
+                    
+                    /////////////////////////////////////////////////////////////////////
+                    // Persist EventLog record to the database
+                    /////////////////////////////////////////////////////////////////////
+                    _dbContext.EventLogs.Add(eventLog);
+                    await _dbContext.SaveChangesAsync();        
+
+                    /////////////////////////////////////////////////////////////////////
+                    // Redirect user to 'RegisterConfirmation' page
+                    /////////////////////////////////////////////////////////////////////
                     return RedirectToPage("./RegisterConfirmation");
                 }
                 

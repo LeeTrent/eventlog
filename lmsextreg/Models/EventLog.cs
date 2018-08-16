@@ -40,7 +40,7 @@ namespace lmsextreg.Models
         // DataValues:
         // Data attributes that are specific to EventType
         ///////////////////////////////////////////////////////////////////
-        private String DataValues {get; set;}
+        public String DataValues {get; set;}
               
         ////////////////////////////////////////////////////////////
         // DateCreated:
