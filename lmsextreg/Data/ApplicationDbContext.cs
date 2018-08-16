@@ -170,9 +170,9 @@ namespace lmsextreg.Data
             // EventType:
             // - Unique Key Constraint (EventTypeCode)
             /////////////////////////////////////////////////////////////////////////
-            builder.Entity<EventType>()
-                .HasIndex(et => et.EventTypeCode)
-                .IsUnique();      
+            // builder.Entity<EventType>()
+            //     .HasIndex(et => et.EventTypeCode)
+            //     .IsUnique();      
     
             /////////////////////////////////////////////////////////////////////////                           
             // EventType:
