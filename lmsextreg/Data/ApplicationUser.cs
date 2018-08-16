@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
@@ -61,5 +62,29 @@ namespace lmsextreg.Data
         // Navigation Property
         ///////////////////////////////////        
         public SubAgency SubAgency { get; set; }
+
+        public override String ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+s           
+            sb.Append("[");
+            sb.Append("UserName=");
+            sb.Append(this.UserName);
+            sb.Append(";Email=");
+            sb.Append(this.Email);
+            sb.Append(";LastName=");
+            sb.Append(this.LastName);   
+            sb.Append(";FirstName=");
+            sb.Append(this.FirstName);     
+            sb.Append(";MiddleName=");
+            sb.Append(this.MiddleName);           
+            sb.Append(";AgencyID=");
+            sb.Append(this.AgencyID);         
+            sb.Append(";SubAgencyID=");
+            sb.Append(this.SubAgencyID);   
+            sb.Append("]");                                      
+
+            return sb.ToString();
+        }        
     }
 }

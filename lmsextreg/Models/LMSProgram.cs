@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using System.Collections.Generic;
 
 using System.ComponentModel.DataAnnotations;
@@ -16,5 +18,24 @@ namespace lmsextreg.Models
         public string LongName { get; set; }
         public string CommonInbox { get; set; }
         public ICollection<ProgramApprover> ProgramApprovers { get; set; }
-    }
+
+        public override String ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("[");
+            sb.Append("LMSProgramID=");
+            sb.Append(this.LMSProgramID);
+            sb.Append(";ShortName=");
+            sb.Append(this.ShortName);
+            sb.Append(this.LongName);   
+            sb.Append(";LastName=");
+            sb.Append(this.LongName);   
+            sb.Append(";CommonInbox=");
+            sb.Append(this.CommonInbox);     
+            sb.Append("]");                                      
+
+            return sb.ToString();
+        }         
+     }
 }

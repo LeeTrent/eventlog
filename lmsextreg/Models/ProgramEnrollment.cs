@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using lmsextreg.Data;
@@ -92,5 +93,23 @@ namespace lmsextreg.Models
         // Date that row was last updated
         ///////////////////////////////////////////////////////////
         public DateTime DateLastUpdated { get; set; }
+
+        public override String ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("ProgramEnrollment=[");
+            sb.Append("LMS Program=");
+            sb.Append(this.LMSProgram);
+            sb.Append(";EnrollmentStatus=");
+            sb.Append(this.EnrollmentStatus);                       
+            sb.Append(";Student=");
+            sb.Append(this.Student);
+            sb.Append(";Approver=");
+            sb.Append(this.Approver);  
+            sb.Append("]");                                      
+
+            return sb.ToString();
+        }                   
     }
 }

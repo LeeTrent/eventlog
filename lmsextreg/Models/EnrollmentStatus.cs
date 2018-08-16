@@ -1,4 +1,6 @@
 
+using System;
+using System.Text;
 using System.ComponentModel.DataAnnotations;
 
 namespace lmsextreg.Models
@@ -12,5 +14,19 @@ namespace lmsextreg.Models
         [Required]
          [Display(Name = "Status")]
         public string StatusLabel { get; set; }
+
+        public override String ToString()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("[");
+            sb.Append("StatusCode=");
+            sb.Append(this.StatusCode);
+            sb.Append(";StatusLabel=");
+            sb.Append(this.StatusLabel);
+            sb.Append("]");                                      
+
+            return sb.ToString();
+        }          
     }
 }
