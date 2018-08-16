@@ -37,17 +37,11 @@ namespace lmsextreg.Models
         public string UserCreatedName { get; set; }        
 
         ////////////////////////////////////////////////////////////////////
-        // OldValue:
+        // DataValues:
         // Data attributes that are specific to EventType
         ///////////////////////////////////////////////////////////////////
-        private String OldValue {get; set;}
-
-        ////////////////////////////////////////////////////////////////////
-        // NewValue:
-        // Data attributes that are specific to EventType
-        ///////////////////////////////////////////////////////////////////
-        private String NewValue {get; set;}
-               
+        private String DataValues {get; set;}
+              
         ////////////////////////////////////////////////////////////
         // DateCreated:
         // Date that row was originally inserted
