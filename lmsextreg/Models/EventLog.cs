@@ -14,11 +14,11 @@ namespace lmsextreg.Models
         public int EventLogID { get; set; }
 
         ////////////////////////////////////////////////////////////
-        // EventTypeID:
+        // EventTypeCode:
         // Foreign-key reference to EventType table
         ///////////////////////////////////////////////////////////
         [Required]
-        public int EventTypeID { get; set; }      
+        public string EventTypeCode { get; set; }      
 
         ////////////////////////////////////////////////////////////
         // UserCreatedID:
