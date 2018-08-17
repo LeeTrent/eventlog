@@ -2,19 +2,25 @@ namespace lmsextreg.Constants
 {
     public class EventTypeLabelConstants
     {
+       public static readonly string USER_REGISTERED               = "USER_REGISTERED";
+        public static readonly string EMAIL_CONFIRMED               = "EMAIL_CONFIRMED";
+        public static readonly string LOGIN                         = "LOGIN";
+        public static readonly string LOGIN_WITH_2FA                = "LOGIN_WITH_2FA";
+        public static readonly string LOGIN_WITH_RECOVERY_CODE      = "LOGIN_WITH_RECOVERY_CODE";
+        public static readonly string LOGOUT                        = "LOGOUT";
+        public static readonly string FORGOT_PASSWORD               = "FORGOT_PASSWORD";
+        public static readonly string CHANGED_PASSWORD              = "CHANGED_PASSWORD";
+        public static readonly string RESET_PASSWORD                = "RESET_PASSWORD";
+        public static readonly string RESET_PW_CONFIRMATION         = "RESET_PW_CONFIRMATION";
+        public static readonly string AUTHENTICATOR_ENABLED         = "AUTHENTICATOR_ENABLED";
+        public static readonly string TWO_FACTOR_ENABLED            = "TWO-FACTOR_ENABLED";
+        public static readonly string TWO_FACTOR_DISABLED           = "TWO_FACTOR_DISABLED";
+        public static readonly string ENROLLMENT_APPROVED           = "ENROLLMENT_APPROVED";
+        public static readonly string ENROLLMENT_DENIED             = "ENROLLMENT_DENIED";
+        public static readonly string ENROLLMENT_REVOKED            = "ENROLLMENT_REVOKED";
+        public static readonly string ENROLLMENT_REQUSTED           = "ENROLLMENT_REQUSTED";
+        public static readonly string REENROLLMENT_REQUSTED         = "REENROLLMENT_REQUSTED";
+        public static readonly string ENROLLMENT_WITHDRAWN          = "ENROLLMENT_WITHDRAWN";
 
-        public static readonly string USER_REGISTERED       = "User Registered";
-        public static readonly string EMAIL_CONFIRMED       = "User's email address was confirmed";
-        public static readonly string USER_LOGIN            = "User logged-in";
-        public static readonly string USER_LOGOUT           = "User logged-out";
-        public static readonly string FORGOT_PASSWORD  = "User forgot password";
-        public static readonly string CHANGED_PASSWORD      = "User changed password";
-        public static readonly string TWO_FACTOR_ENABLED    = "2-factor authentication was enabled";
-        public static readonly string ENROLLMENT_APPROVED   = "Enrollment request was approved";
-        public static readonly string ENROLLMENT_DENIED     = "Enrollment request was denied";
-        public static readonly string ENROLLMENT_REVOKED    = "Approved enrollment request was revoked";
-        public static readonly string ENROLLMENT_REQUSTED   = "Program enrollment was requested";
-        public static readonly string REENROLLMENT_REQUSTED = "Program re-enrollment was requeted";
-        public static readonly string ENROLLMENT_WITHDRAWN  = "Program enrollment request was withdrawn";
     }
 }
