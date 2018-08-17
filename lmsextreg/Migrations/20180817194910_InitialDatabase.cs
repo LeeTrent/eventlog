@@ -57,6 +57,19 @@ namespace lmsextreg.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EventType",
+                schema: "lmsext",
+                columns: table => new
+                {
+                    EventTypeCode = table.Column<string>(nullable: false),
+                    EventTypeLabel = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventType", x => x.EventTypeCode);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "LMSProgram",
                 schema: "lmsext",
                 columns: table => new
@@ -295,6 +308,38 @@ namespace lmsextreg.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "EventLog",
+                schema: "lmsext",
+                columns: table => new
+                {
+                    EventLogID = table.Column<int>(nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.SerialColumn),
+                    DataValues = table.Column<string>(nullable: true),
+                    DateTimeCreated = table.Column<DateTime>(nullable: false),
+                    EventTypeCode = table.Column<string>(nullable: false),
+                    UserCreatedID = table.Column<string>(nullable: false),
+                    UserCreatedName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_EventLog", x => x.EventLogID);
+                    table.ForeignKey(
+                        name: "FK_EventLog_EventType_EventTypeCode",
+                        column: x => x.EventTypeCode,
+                        principalSchema: "lmsext",
+                        principalTable: "EventType",
+                        principalColumn: "EventTypeCode",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_EventLog_AspNetUsers_UserCreatedID",
+                        column: x => x.UserCreatedID,
+                        principalSchema: "lmsext",
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProgramApprover",
                 schema: "lmsext",
                 columns: table => new
@@ -492,6 +537,25 @@ namespace lmsextreg.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_EventLog_EventTypeCode",
+                schema: "lmsext",
+                table: "EventLog",
+                column: "EventTypeCode");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventLog_UserCreatedID",
+                schema: "lmsext",
+                table: "EventLog",
+                column: "UserCreatedID");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_EventType_EventTypeLabel",
+                schema: "lmsext",
+                table: "EventType",
+                column: "EventTypeLabel",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProgramApprover_ApproverUserId",
                 schema: "lmsext",
                 table: "ProgramApprover",
@@ -569,6 +633,10 @@ namespace lmsextreg.Migrations
                 schema: "lmsext");
 
             migrationBuilder.DropTable(
+                name: "EventLog",
+                schema: "lmsext");
+
+            migrationBuilder.DropTable(
                 name: "ProgramApprover",
                 schema: "lmsext");
 
@@ -582,6 +650,10 @@ namespace lmsextreg.Migrations
 
             migrationBuilder.DropTable(
                 name: "StatusTransition",
+                schema: "lmsext");
+
+            migrationBuilder.DropTable(
+                name: "EventType",
                 schema: "lmsext");
 
             migrationBuilder.DropTable(

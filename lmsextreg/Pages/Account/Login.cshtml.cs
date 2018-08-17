@@ -13,6 +13,7 @@ using Microsoft.Extensions.Logging;
 using lmsextreg.Data;
 using lmsextreg.Utils;
 using lmsextreg.Constants;
+using lmsextreg.Models;
 
 namespace lmsextreg.Pages.Account
 {
@@ -22,12 +23,20 @@ namespace lmsextreg.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IConfiguration _configuration;
+        private readonly ApplicationDbContext _dbContext;
 
-        public LoginModel(SignInManager<ApplicationUser> signInManager, ILogger<LoginModel> logger, IConfiguration config)
+        public LoginModel
+        (
+            SignInManager<ApplicationUser> signInManager,
+            ILogger<LoginModel> logger,
+            IConfiguration config,
+            ApplicationDbContext dbContext
+        )
         {
             _signInManager = signInManager;
             _logger = logger;
             _configuration = config;
+            _dbContext = dbContext;
         }
 
         [BindProperty]
@@ -134,6 +143,24 @@ namespace lmsextreg.Pages.Account
                     _logger.LogInformation("[Login][OnPostAsync] - SignInResult succeeded");
 
                     ApplicationUser user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
+
+                    ///////////////////////////////////////////////////////////////////
+                    // Create EventLog record with Event Type of 'USER_REGISTERED'
+                    ///////////////////////////////////////////////////////////////////
+                    var eventLog = new EventLog
+                    {
+                        EventTypeCode   = EventTypeCodeConstants.LOGIN,
+                        UserCreatedID   = user.Id,
+                        UserCreatedName = user.UserName,
+                        DataValues      = user.ToString(),
+                        DateTimeCreated = DateTime.Now
+                    };
+                    
+                    /////////////////////////////////////////////////////////////////////
+                    // Persist EventLog record to the database
+                    /////////////////////////////////////////////////////////////////////
+                    _dbContext.EventLogs.Add(eventLog);
+                    await _dbContext.SaveChangesAsync();                  
 
                     Console.WriteLine("[Login][OnPostAsync] - Password Expired: " + (user.DatePasswordExpires <= DateTime.Now) );
                     if (user.DatePasswordExpires <= DateTime.Now)

@@ -11,7 +11,7 @@ using System;
 namespace lmsextreg.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20180725144059_InitialDatabase")]
+    [Migration("20180817194910_InitialDatabase")]
     partial class InitialDatabase
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -160,6 +160,49 @@ namespace lmsextreg.Migrations
                         .IsUnique();
 
                     b.ToTable("EnrollmentStatus");
+                });
+
+            modelBuilder.Entity("lmsextreg.Models.EventLog", b =>
+                {
+                    b.Property<int>("EventLogID")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("DataValues");
+
+                    b.Property<DateTime>("DateTimeCreated");
+
+                    b.Property<string>("EventTypeCode")
+                        .IsRequired();
+
+                    b.Property<string>("UserCreatedID")
+                        .IsRequired();
+
+                    b.Property<string>("UserCreatedName")
+                        .IsRequired();
+
+                    b.HasKey("EventLogID");
+
+                    b.HasIndex("EventTypeCode");
+
+                    b.HasIndex("UserCreatedID");
+
+                    b.ToTable("EventLog");
+                });
+
+            modelBuilder.Entity("lmsextreg.Models.EventType", b =>
+                {
+                    b.Property<string>("EventTypeCode")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("EventTypeLabel")
+                        .IsRequired();
+
+                    b.HasKey("EventTypeCode");
+
+                    b.HasIndex("EventTypeLabel")
+                        .IsUnique();
+
+                    b.ToTable("EventType");
                 });
 
             modelBuilder.Entity("lmsextreg.Models.LMSProgram", b =>
@@ -418,6 +461,19 @@ namespace lmsextreg.Migrations
                     b.HasOne("lmsextreg.Models.StatusTransition", "StatusTransition")
                         .WithMany()
                         .HasForeignKey("StatusTransitionID")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("lmsextreg.Models.EventLog", b =>
+                {
+                    b.HasOne("lmsextreg.Models.EventType", "EventType")
+                        .WithMany()
+                        .HasForeignKey("EventTypeCode")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("lmsextreg.Data.ApplicationUser", "UserCreated")
+                        .WithMany()
+                        .HasForeignKey("UserCreatedID")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

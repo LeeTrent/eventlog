@@ -359,8 +359,9 @@ namespace lmsextreg.Data
 
             await EnsureEventType(dbContext, EventTypeCodeConstants.USER_REGISTERED,        EventTypeLabelConstants.USER_REGISTERED         );
             await EnsureEventType(dbContext, EventTypeCodeConstants.EMAIL_CONFIRMED,        EventTypeLabelConstants.EMAIL_CONFIRMED         );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_LOGIN,             EventTypeLabelConstants.USER_LOGIN              );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_LOGOUT,            EventTypeLabelConstants.USER_LOGOUT             );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN,                  EventTypeLabelConstants.LOGIN                   );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN_WITH_2FA,         EventTypeLabelConstants.LOGIN_WITH_2FA          );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGOUT,                 EventTypeLabelConstants.LOGOUT                  );
             await EnsureEventType(dbContext, EventTypeCodeConstants.FORGOT_PASSWORD,        EventTypeLabelConstants.FORGOT_PASSWORD         );
             await EnsureEventType(dbContext, EventTypeCodeConstants.CHANGED_PASSWORD,       EventTypeLabelConstants.CHANGED_PASSWORD        );
             await EnsureEventType(dbContext, EventTypeCodeConstants.TWO_FACTOR_ENABLED,     EventTypeLabelConstants.TWO_FACTOR_ENABLED      );
