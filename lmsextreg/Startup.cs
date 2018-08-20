@@ -10,14 +10,15 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using lmsextreg.Data;
-using lmsextreg.Services;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using lmsextreg.Data;
+using lmsextreg.Services;
 using lmsextreg.Authorization;
 using lmsextreg.Authentication;
+using lmsextreg.Repositories;
 
 namespace lmsextreg
 {
@@ -141,7 +142,12 @@ namespace lmsextreg
 
             services.AddScoped<IAuthorizationHandler, CanAccessStudentLinkHandler>();
             services.AddScoped<IAuthorizationHandler, CanAccessApproverLinkHandler>();
-            services.AddScoped<IAuthorizationHandler, CanAccessProfileLinkHandler>();            
+            services.AddScoped<IAuthorizationHandler, CanAccessProfileLinkHandler>();    
+
+            // Register EventLogRepository
+            services.AddScoped<IEventLogRepository, EventLogRepository>();            
+            // Register EventLogService
+            services.AddScoped<IEventLogService, EventLogService>();                
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

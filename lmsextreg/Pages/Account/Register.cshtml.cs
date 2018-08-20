@@ -32,6 +32,7 @@ namespace lmsextreg.Pages.Account
         private readonly ApplicationDbContext _dbContext;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IEventLogService _eventLogService;
 
         public RegisterModel
             (
@@ -41,7 +42,8 @@ namespace lmsextreg.Pages.Account
                 IEmailSender emailSender,
                 ApplicationDbContext dbContext,
                 RoleManager<IdentityRole> roleManager,
-                IConfiguration config
+                IConfiguration config,
+                IEventLogService eventLogSvc
             )
         {
             _userManager = userManager;
@@ -51,6 +53,7 @@ namespace lmsextreg.Pages.Account
             _dbContext = dbContext;
             _roleManager = roleManager;
             _configuration = config;
+            _eventLogService = eventLogSvc;
         }
 
         [BindProperty]
@@ -201,22 +204,9 @@ namespace lmsextreg.Pages.Account
                     //return LocalRedirect(Url.GetLocalUrl(returnUrl));
 
                     ///////////////////////////////////////////////////////////////////
-                    // Create EventLog record with Event Type of 'USER_REGISTERED'
+                    // Log the 'USER_REGISTERED' event
                     ///////////////////////////////////////////////////////////////////
-                    var eventLog = new EventLog
-                    {
-                        EventTypeCode   = EventTypeCodeConstants.USER_REGISTERED,
-                        UserCreatedID   = user.Id,
-                        UserCreatedName = user.UserName,
-                        DataValues      = user.ToString(),
-                        DateTimeCreated = DateTime.Now
-                    };
-                    
-                    /////////////////////////////////////////////////////////////////////
-                    // Persist EventLog record to the database
-                    /////////////////////////////////////////////////////////////////////
-                    _dbContext.EventLogs.Add(eventLog);
-                    await _dbContext.SaveChangesAsync();        
+                   _eventLogService.LogEvent(EventTypeCodeConstants.USER_REGISTERED, user);
 
                     /////////////////////////////////////////////////////////////////////
                     // Redirect user to 'RegisterConfirmation' page

@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using lmsextreg.Data;
 using lmsextreg.Models;
 using lmsextreg.Constants;
+using lmsextreg.Services;
 
 namespace lmsextreg.Pages.Account
 {
@@ -20,18 +21,18 @@ namespace lmsextreg.Pages.Account
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginWith2faModel> _logger;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IEventLogService _eventLogService;
 
         public LoginWith2faModel
         (
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginWith2faModel> logger,
-            ApplicationDbContext dbContext
+            IEventLogService eventLogSvc
         )
         {
-            _signInManager = signInManager;
-            _logger = logger;
-            _dbContext = dbContext;
+            _signInManager      = signInManager;
+            _logger             = logger;
+            _eventLogService    = eventLogSvc;
         }
 
         [BindProperty]
@@ -91,26 +92,9 @@ namespace lmsextreg.Pages.Account
                 _logger.LogInformation("User with ID '{UserId}' logged in with 2fa.", user.Id);
 
                 ///////////////////////////////////////////////////////////////////
-                // Create EventLog record with Event Type of 'USER_REGISTERED'
+                // Log the 'LOGIN_WITH_2FA' event
                 ///////////////////////////////////////////////////////////////////
-                var eventLog = new EventLog
-                {
-                    EventTypeCode   = EventTypeCodeConstants.LOGIN_WITH_2FA,
-                    UserCreatedID   = user.Id,
-                    UserCreatedName = user.UserName,
-                    DataValues      = user.ToString(),
-                    DateTimeCreated = DateTime.Now
-                };
-                
-                /////////////////////////////////////////////////////////////////////
-                // Persist EventLog record to the database
-                /////////////////////////////////////////////////////////////////////
-                _dbContext.EventLogs.Add(eventLog);
-                await _dbContext.SaveChangesAsync();   
-
-
-
-
+                _eventLogService.LogEvent(EventTypeCodeConstants.LOGIN_WITH_2FA, user);                   
 
                 return LocalRedirect(Url.GetLocalUrl(returnUrl));
             }

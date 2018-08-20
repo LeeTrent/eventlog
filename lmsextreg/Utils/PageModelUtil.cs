@@ -18,8 +18,8 @@ namespace lmsextreg.Utils
                 redirection attacks.
             *************************************************************************************************/
 
-            Console.WriteLine("[PageModelUtil.EnsureLocalUrl] passedInUrl: '" + passedInUrl + "'" );
-            Console.WriteLine("[PageModelUtil.EnsureLocalUrl] passedInUrl IS NULL: " + (passedInUrl == null) );        
+            // Console.WriteLine("[PageModelUtil.EnsureLocalUrl] passedInUrl: '" + passedInUrl + "'" );
+            // Console.WriteLine("[PageModelUtil.EnsureLocalUrl] passedInUrl IS NULL: " + (passedInUrl == null) );        
 
             string returnUrl = null;
 

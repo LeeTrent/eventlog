@@ -14,6 +14,7 @@ using lmsextreg.Data;
 using lmsextreg.Utils;
 using lmsextreg.Constants;
 using lmsextreg.Models;
+using lmsextreg.Services;
 
 namespace lmsextreg.Pages.Account
 {
@@ -23,20 +24,20 @@ namespace lmsextreg.Pages.Account
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
         private readonly IConfiguration _configuration;
-        private readonly ApplicationDbContext _dbContext;
+        private readonly IEventLogService _eventLogService;
 
         public LoginModel
         (
             SignInManager<ApplicationUser> signInManager,
             ILogger<LoginModel> logger,
             IConfiguration config,
-            ApplicationDbContext dbContext
+            IEventLogService eventLogSvc
         )
         {
-            _signInManager = signInManager;
-            _logger = logger;
-            _configuration = config;
-            _dbContext = dbContext;
+            _signInManager      = signInManager;
+            _logger             = logger;
+            _configuration      = config;
+            _eventLogService    = eventLogSvc;
         }
 
         [BindProperty]
@@ -145,22 +146,9 @@ namespace lmsextreg.Pages.Account
                     ApplicationUser user = await _signInManager.UserManager.FindByNameAsync(Input.Email);
 
                     ///////////////////////////////////////////////////////////////////
-                    // Create EventLog record with Event Type of 'USER_REGISTERED'
+                    // Log the 'LOGIN' event
                     ///////////////////////////////////////////////////////////////////
-                    var eventLog = new EventLog
-                    {
-                        EventTypeCode   = EventTypeCodeConstants.LOGIN,
-                        UserCreatedID   = user.Id,
-                        UserCreatedName = user.UserName,
-                        DataValues      = user.ToString(),
-                        DateTimeCreated = DateTime.Now
-                    };
-                    
-                    /////////////////////////////////////////////////////////////////////
-                    // Persist EventLog record to the database
-                    /////////////////////////////////////////////////////////////////////
-                    _dbContext.EventLogs.Add(eventLog);
-                    await _dbContext.SaveChangesAsync();                  
+                   _eventLogService.LogEvent(EventTypeCodeConstants.LOGIN, user);                          
 
                     Console.WriteLine("[Login][OnPostAsync] - Password Expired: " + (user.DatePasswordExpires <= DateTime.Now) );
                     if (user.DatePasswordExpires <= DateTime.Now)

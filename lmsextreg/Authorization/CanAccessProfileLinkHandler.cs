@@ -50,9 +50,9 @@ namespace lmsextreg.Authorization
                 }
             }
        
-            Console.WriteLine("[CanAccessProfileLinkHandler][HandleRequirementAsync] - (isSignedInn)........: " + isSignedIn);
-            Console.WriteLine("[CanAccessProfileLinkHandler][HandleRequirementAsync] - (isTwoFactorEnabled).: " + isTwoFactorEnabled);
-            Console.WriteLine("[CanAccessProfileLinkHandler][HandleRequirementAsync] - (isStudentOrApprover.: " + isStudentOrApprover);
+            // Console.WriteLine("[CanAccessProfileLinkHandler][HandleRequirementAsync] - (isSignedInn)........: " + isSignedIn);
+            // Console.WriteLine("[CanAccessProfileLinkHandler][HandleRequirementAsync] - (isTwoFactorEnabled).: " + isTwoFactorEnabled);
+            // Console.WriteLine("[CanAccessProfileLinkHandler][HandleRequirementAsync] - (isStudentOrApprover.: " + isStudentOrApprover);
 
             if ( isSignedIn 
                     && isTwoFactorEnabled 

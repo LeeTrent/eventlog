@@ -43,7 +43,7 @@ namespace lmsextreg.Services
             };
             //client.EnableSsl = true;
               
-            MailAddress fromAddress = new MailAddress("LMSExtRegAdmin@gsa.com", "LMS Registration and Enrollment");
+            MailAddress fromAddress = new MailAddress("ELMSRegistration@gsa.com", "LMS Registration and Enrollment");
             MailAddress toAddress   = new MailAddress(toEmail);
             
             MailMessage mailMessage     = new MailMessage(fromAddress, toAddress);
