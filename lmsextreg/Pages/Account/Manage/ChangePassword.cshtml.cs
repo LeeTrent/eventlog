@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using lmsextreg.Data;
 using lmsextreg.Constants;
+using lmsextreg.Services;
 
 namespace lmsextreg.Pages.Account.Manage
 {
@@ -17,15 +18,20 @@ namespace lmsextreg.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly ILogger<ChangePasswordModel> _logger;
+        private readonly IEventLogService _eventLogService;
 
-        public ChangePasswordModel(
+        public ChangePasswordModel
+        (
             UserManager<ApplicationUser> userManager,
             SignInManager<ApplicationUser> signInManager,
-            ILogger<ChangePasswordModel> logger)
+            ILogger<ChangePasswordModel> logger,
+            IEventLogService eventLogSvc
+        )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _eventLogService = eventLogSvc;
         }
 
         [BindProperty]
@@ -111,6 +117,11 @@ namespace lmsextreg.Pages.Account.Manage
             await _signInManager.SignInAsync(user, isPersistent: false);
             _logger.LogInformation("User changed their password successfully.");
             StatusMessage = "Your password has been changed.";
+
+            ///////////////////////////////////////////////////////////////////
+            // Log the 'CHANGED_PASSWORD' event
+            ///////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(EventTypeCodeConstants.CHANGED_PASSWORD, user); 
 
             /////////////////////////////////////////////////////////////
             // Now that password had been successfully changed,
