@@ -357,20 +357,26 @@ namespace lmsextreg.Data
         {
             Console.WriteLine("DataSeed.EnsureEventTypes: BEGIN");
 
-            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_REGISTERED,        EventTypeLabelConstants.USER_REGISTERED         );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.EMAIL_CONFIRMED,        EventTypeLabelConstants.EMAIL_CONFIRMED         );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN,                  EventTypeLabelConstants.LOGIN                   );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN_WITH_2FA,         EventTypeLabelConstants.LOGIN_WITH_2FA          );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGOUT,                 EventTypeLabelConstants.LOGOUT                  );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.FORGOT_PASSWORD,        EventTypeLabelConstants.FORGOT_PASSWORD         );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.CHANGED_PASSWORD,       EventTypeLabelConstants.CHANGED_PASSWORD        );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.TWO_FACTOR_ENABLED,     EventTypeLabelConstants.TWO_FACTOR_ENABLED      );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_APPROVED,    EventTypeLabelConstants.ENROLLMENT_APPROVED     );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_DENIED,      EventTypeLabelConstants.ENROLLMENT_DENIED       );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_REVOKED,     EventTypeLabelConstants.ENROLLMENT_REVOKED      );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_REQUSTED,    EventTypeLabelConstants.ENROLLMENT_REQUSTED     );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.REENROLLMENT_REQUSTED,  EventTypeLabelConstants.REENROLLMENT_REQUSTED   );
-            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_WITHDRAWN,   EventTypeLabelConstants.ENROLLMENT_WITHDRAWN    );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.USER_REGISTERED,            EventTypeLabelConstants.USER_REGISTERED             );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.EMAIL_CONFIRMED,            EventTypeLabelConstants.EMAIL_CONFIRMED             );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN,                      EventTypeLabelConstants.LOGIN                       );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN_WITH_2FA,             EventTypeLabelConstants.LOGIN_WITH_2FA              );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGIN_WITH_RECOVERY_CODE,   EventTypeLabelConstants.LOGIN_WITH_RECOVERY_CODE    );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.LOGOUT,                     EventTypeLabelConstants.LOGOUT                      );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.FORGOT_PASSWORD,            EventTypeLabelConstants.FORGOT_PASSWORD             );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.CHANGED_PASSWORD,           EventTypeLabelConstants.CHANGED_PASSWORD            );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.RESET_PASSWORD,             EventTypeLabelConstants.RESET_PASSWORD              );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.RESET_PW_CONFIRMATION,      EventTypeLabelConstants.RESET_PW_CONFIRMATION       );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.AUTHENTICATOR_ENABLED,      EventTypeLabelConstants.AUTHENTICATOR_ENABLED       );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.TWO_FACTOR_ENABLED,         EventTypeLabelConstants.TWO_FACTOR_ENABLED          );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.SHOW_RECOVERY_CODES,        EventTypeLabelConstants.SHOW_RECOVERY_CODES         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.TWO_FACTOR_DISABLED,        EventTypeLabelConstants.TWO_FACTOR_DISABLED         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_APPROVED,        EventTypeLabelConstants.ENROLLMENT_APPROVED         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_DENIED,          EventTypeLabelConstants.ENROLLMENT_DENIED           );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_REVOKED,         EventTypeLabelConstants.ENROLLMENT_REVOKED          );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_REQUSTED,        EventTypeLabelConstants.ENROLLMENT_REQUSTED         );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.REENROLLMENT_REQUSTED,      EventTypeLabelConstants.REENROLLMENT_REQUSTED       );
+            await EnsureEventType(dbContext, EventTypeCodeConstants.ENROLLMENT_WITHDRAWN,       EventTypeLabelConstants.ENROLLMENT_WITHDRAWN        );
 
             Console.WriteLine("DataSeed.EnsureEventTypes: END");
         }         

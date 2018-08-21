@@ -14,6 +14,7 @@ namespace lmsextreg.Constants
         public static readonly string RESET_PW_CONFIRMATION         = "RESET_PW_CONFIRMATION";
         public static readonly string AUTHENTICATOR_ENABLED         = "AUTHENTICATOR_ENABLED";
         public static readonly string TWO_FACTOR_ENABLED            = "TWO-FACTOR_ENABLED";
+        public static readonly string SHOW_RECOVERY_CODES           = "RECOVERY_CODES_DISPLAYED";
         public static readonly string TWO_FACTOR_DISABLED           = "TWO_FACTOR_DISABLED";
         public static readonly string ENROLLMENT_APPROVED           = "ENROLLMENT_APPROVED";
         public static readonly string ENROLLMENT_DENIED             = "ENROLLMENT_DENIED";
