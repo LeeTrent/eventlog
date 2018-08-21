@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using lmsextreg.Constants;
 using lmsextreg.Data;
+using lmsextreg.Services;
 
 namespace lmsextreg.Pages.Account
 {
@@ -14,10 +16,16 @@ namespace lmsextreg.Pages.Account
     public class ConfirmEmailModel : PageModel
     {
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEventLogService _eventLogService;
 
-        public ConfirmEmailModel(UserManager<ApplicationUser> userManager)
+        public ConfirmEmailModel
+        (
+            UserManager<ApplicationUser> userManager,
+            IEventLogService eventLogSvc
+        )
         {
             _userManager = userManager;
+            _eventLogService = eventLogSvc;
         }
 
         public async Task<IActionResult> OnGetAsync(string userId, string code)
@@ -38,6 +46,10 @@ namespace lmsextreg.Pages.Account
             {
                 throw new ApplicationException($"Error confirming email for user with ID '{userId}':");
             }
+            ///////////////////////////////////////////////////////////////////
+            // Log the 'EMAIL_CONFIRMED' event
+            ///////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(EventTypeCodeConstants.EMAIL_CONFIRMED, user);             
 
             return Page();
         }
