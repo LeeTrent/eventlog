@@ -11,7 +11,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using lmsextreg.Constants;
 using lmsextreg.Data;
+using lmsextreg.Services;
 
 namespace lmsextreg.Pages.Account.Manage
 {
@@ -21,17 +23,22 @@ namespace lmsextreg.Pages.Account.Manage
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ILogger<EnableAuthenticatorModel> _logger;
         private readonly UrlEncoder _urlEncoder;
+        private readonly IEventLogService _eventLogService;
 
         private const string AuthenticatorUriFormat = "otpauth://totp/{0}:{1}?secret={2}&issuer={0}&digits=6";
 
-        public EnableAuthenticatorModel(
+        public EnableAuthenticatorModel
+        (
             UserManager<ApplicationUser> userManager,
             ILogger<EnableAuthenticatorModel> logger,
-            UrlEncoder urlEncoder)
+            UrlEncoder urlEncoder,
+            IEventLogService eventLogSvc
+        )
         {
             _userManager = userManager;
             _logger = logger;
             _urlEncoder = urlEncoder;
+            _eventLogService = eventLogSvc;
         }
 
         public string SharedKey { get; set; }
@@ -92,6 +99,11 @@ namespace lmsextreg.Pages.Account.Manage
 
             await _userManager.SetTwoFactorEnabledAsync(user, true);
             _logger.LogInformation("User with ID '{UserId}' has enabled 2FA with an authenticator app.", user.Id);
+
+            ///////////////////////////////////////////////////////////////////
+            // Log the 'TWO_FACTOR_ENABLED' event
+            ///////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(EventTypeCodeConstants.TWO_FACTOR_ENABLED, user); 
 
             var recoveryCodes = await _userManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
             TempData["RecoveryCodes"] = recoveryCodes.ToArray();
