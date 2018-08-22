@@ -27,18 +27,21 @@ namespace lmsextreg.Pages.Enrollments
 
         private readonly IAuthorizationService _authorizationService;
         private readonly IEmailSender _emailSender;
+        private readonly IEventLogService _eventLogService;
 
         public CreateModel  ( 
                                 lmsextreg.Data.ApplicationDbContext context,
                                 UserManager<ApplicationUser> userMgr,
                                 IAuthorizationService authorizationSvc,
-                                IEmailSender emailSender
+                                IEmailSender emailSender,
+                                IEventLogService eventLogSvc
                             )
         {
             _context = context;
             _userManager = userMgr;
             _authorizationService = authorizationSvc;
             _emailSender = emailSender;
+            _eventLogService = eventLogSvc;
         }
 
         public class InputModel
@@ -170,7 +173,12 @@ namespace lmsextreg.Pages.Enrollments
                 string subject  = "Program Enrollment Request (" + lmsProgram.LongName + ")";
                 string message  = student.FullName + " has requested to enroll in " + lmsProgram.LongName;
                 await _emailSender.SendEmailAsync(email, subject, message);
-            }                           
+            }               
+
+            ///////////////////////////////////////////////////////////////////
+            // Log the 'ENROLLMENT_REQUSTED' event
+            ///////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(EventTypeCodeConstants.ENROLLMENT_REQUSTED, student);                         
 
             /////////////////////////////////////////////////////////////////
             // Redirect to Enrollmentl Index Page
