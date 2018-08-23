@@ -241,7 +241,6 @@ namespace lmsextreg.Pages.Enrollments
                                                 .AsNoTracking()
                                                 .ToListAsync(); 
 
-            ApplicationUser student = await GetCurrentUserAsync();
             foreach (ProgramApprover approverObj in approverList)
             {
                 string email    = approverObj.Approver.Email;
