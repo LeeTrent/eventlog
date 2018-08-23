@@ -102,10 +102,29 @@ namespace lmsextreg.Data
             sb.Append(this.FirstName);     
             sb.Append(";MiddleName=");
             sb.Append(this.MiddleName);           
-            sb.Append(";Agency=");
-            sb.Append(this.Agency.AgencyName);         
-            sb.Append(";SubAgencyID=");
-            sb.Append(this.SubAgency.SubAgencyName);   
+           
+            if (this.Agency == null)
+            {
+                sb.Append(";AgencyID=");
+                sb.Append(this.AgencyID);  
+            }
+            else
+            {
+                sb.Append(";Agency=");
+                sb.Append(this.Agency.AgencyName);   
+            }
+      
+            if (this.SubAgency == null)
+            {
+                sb.Append(";SubAgencyID=");
+                sb.Append(this.SubAgencyID);   
+            }
+            else
+            {
+                sb.Append(";SubAgency=");
+                sb.Append(this.SubAgency.SubAgencyName);              
+            }
+ 
             sb.Append("]");                                      
 
             return sb.ToString();            

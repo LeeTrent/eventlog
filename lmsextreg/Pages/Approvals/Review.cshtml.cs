@@ -21,16 +21,20 @@ namespace lmsextreg.Pages.Approvals
          private readonly ApplicationDbContext _dbContext;
          private readonly UserManager<ApplicationUser> _userManager;
          private readonly IEmailSender _emailSender;
+         private readonly IEventLogService _eventLogService;
 
-        public ReviewModel  (
-                                lmsextreg.Data.ApplicationDbContext dbCntx, 
-                                UserManager<ApplicationUser> usrMgr,
-                                IEmailSender emailSndr
-                            )
+        public ReviewModel  
+        (
+            lmsextreg.Data.ApplicationDbContext dbCntx, 
+            UserManager<ApplicationUser> usrMgr,
+            IEmailSender emailSndr,
+            IEventLogService eventLogSvc
+        )
         {
             _dbContext = dbCntx;
             _userManager = usrMgr;
             _emailSender = emailSndr;
+            _eventLogService = eventLogSvc;
         }         
 
         public class InputModel
@@ -299,6 +303,33 @@ namespace lmsextreg.Pages.Approvals
             _dbContext.ProgramEnrollments.Update(lvProgramEnrollment);
             await _dbContext.SaveChangesAsync();
 
+            //////////////////////////////////////////////////////////////////////////////
+            // Retrieve 'User as Approver' for event logging
+            //////////////////////////////////////////////////////////////////////////////
+            ApplicationUser approver = await GetCurrentUserAsync();
+            
+            //////////////////////////////////////////////////////////////////
+            // Determine EventType StatusCode
+            //////////////////////////////////////////////////////////////////
+            string eventTypeCode = null;
+            if ( statusCode.Equals(StatusCodeConstants.APPROVED) )
+            {
+                eventTypeCode = EventTypeCodeConstants.ENROLLMENT_APPROVED;
+            }
+            if ( statusCode.Equals(StatusCodeConstants.DENIED) )
+            {
+                eventTypeCode = EventTypeCodeConstants.ENROLLMENT_DENIED;
+            }     
+            if ( statusCode.Equals(StatusCodeConstants.REVOKED) )
+            {
+                eventTypeCode = EventTypeCodeConstants.ENROLLMENT_REVOKED;
+            }                             
+
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            // Log the ENROLLMENT <APPROVED || DENIED || REVOKED> event
+            /////////////////////////////////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(eventTypeCode, approver, lvProgramEnrollment.ProgramEnrollmentID); 
+
             /////////////////////////////////////////////////////////////////////
             // Send email notification to student, advising him/her of
             // program enrollment status
@@ -379,6 +410,7 @@ namespace lmsextreg.Pages.Approvals
                                     .Include(eh => eh.StatusTransition)
                                     .OrderBy(eh => eh.EnrollmentHistoryID)
                                     .ToListAsync();
-        }                  
+        }
+        private Task<ApplicationUser> GetCurrentUserAsync() => _userManager.GetUserAsync(HttpContext.User);                  
     }
 }
