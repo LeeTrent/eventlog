@@ -21,14 +21,17 @@ namespace lmsextreg.Pages.Enrollments
         private readonly lmsextreg.Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IEventLogService _eventLogService;
 
         public WithdrawModel(lmsextreg.Data.ApplicationDbContext context, 
                             UserManager<ApplicationUser> userMgr,
-                            IEmailSender emailSender)
+                            IEmailSender emailSender,
+                            IEventLogService eventLogSvc)
         {
             _context = context;
             _userManager = userMgr;
             _emailSender = emailSender;
+            _eventLogService = eventLogSvc;
         }
 
         public class InputModel
@@ -202,6 +205,14 @@ namespace lmsextreg.Pages.Enrollments
             _context.ProgramEnrollments.Update(lvProgramEnrollment);
             await _context.SaveChangesAsync();
 
+
+            ApplicationUser student = await GetCurrentUserAsync();
+            
+            /////////////////////////////////////////////////////////////////////////////////
+            // Log the 'ENROLLMENT_WITHDRAWN' event
+            ////////////////////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(EventTypeCodeConstants.ENROLLMENT_WITHDRAWN, student, lvProgramEnrollment.ProgramEnrollmentID); 
+
             ////////////////////////////////////////////////////////////////////////////////////
             // Send email notification to approvers who have their EmailNotify flag set to true
             ////////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +223,6 @@ namespace lmsextreg.Pages.Enrollments
                                                 .AsNoTracking()
                                                 .ToListAsync(); 
 
-            ApplicationUser student = await GetCurrentUserAsync();
             foreach (ProgramApprover approverObj in approverList)
             {
                 string email    = approverObj.Approver.Email;

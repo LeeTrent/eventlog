@@ -71,7 +71,7 @@ namespace lmsextreg.Pages.Account
 
         public async Task OnGetAsync(string returnUrl = null)
         {
-            Console.WriteLine("[Login][OnGetAsync] - returnUrl: " + returnUrl);
+            //Console.WriteLine("[Login][OnGetAsync] - returnUrl: " + returnUrl);
 
             if (!string.IsNullOrEmpty(ErrorMessage))
             {
@@ -89,17 +89,17 @@ namespace lmsextreg.Pages.Account
             // I'm not a robot
             ViewData["ReCaptchaKey"] = _configuration[MiscConstants.GOOGLE_RECAPTCHA_KEY]; 
             this.ReturnUrl = returnUrl;
-            Console.WriteLine("[Login][OnGetAsync] - this.ReturnUrl: " + this.ReturnUrl);
+            //Console.WriteLine("[Login][OnGetAsync] - this.ReturnUrl: " + this.ReturnUrl);
         }
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {          
-            Console.WriteLine("[Login][OnPostAsync] - BEGIN");
+            //Console.WriteLine("[Login][OnPostAsync] - BEGIN");
 
             // Make sure that passed-in 'returnUrl' is of a local origin
             //this.ReturnUrl = PageModelUtil.EnsureLocalUrl(this, returnUrl);
             this.ReturnUrl = returnUrl;
-            Console.WriteLine("[Login][OnPostAsync] - returnUrl: " + returnUrl);
+            //Console.WriteLine("[Login][OnPostAsync] - returnUrl: " + returnUrl);
 
             ///////////////////////////////////////////////////////////////////   
             // "I'm not a robot" check ...
@@ -112,7 +112,7 @@ namespace lmsextreg.Pages.Account
                     )
                 )
             {
-                Console.WriteLine("[Login.OnPostAsync] reCAPTCHA FAILED");
+                //Console.WriteLine("[Login.OnPostAsync] reCAPTCHA FAILED");
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 // RECAPTCHA FAILED - redisplay form
                 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -121,8 +121,8 @@ namespace lmsextreg.Pages.Account
                 return Page();
             }
 
-            Console.WriteLine("[Login.OnPostAsync] reCAPTCHA PASSED");
-            Console.WriteLine("[Login][OnPostAsync] - ModelState.IsValid: " + ModelState.IsValid);
+            //Console.WriteLine("[Login.OnPostAsync] reCAPTCHA PASSED");
+            //Console.WriteLine("[Login][OnPostAsync] - ModelState.IsValid: " + ModelState.IsValid);
 
             if (ModelState.IsValid)
             {
@@ -135,9 +135,9 @@ namespace lmsextreg.Pages.Account
                 Input.RememberMe = false;
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 
-                Console.WriteLine("[Login][OnPostAsync] - SignInResult.Succeeded........: " + result.Succeeded);
-                Console.WriteLine("[Login][OnPostAsync] - SignInResult.RequiresTwoFactor: " + result.RequiresTwoFactor);
-                Console.WriteLine("[Login][OnPostAsync] - SignInResult.IsLockedOut......: " + result.IsLockedOut);
+                //Console.WriteLine("[Login][OnPostAsync] - SignInResult.Succeeded........: " + result.Succeeded);
+                //Console.WriteLine("[Login][OnPostAsync] - SignInResult.RequiresTwoFactor: " + result.RequiresTwoFactor);
+                //Console.WriteLine("[Login][OnPostAsync] - SignInResult.IsLockedOut......: " + result.IsLockedOut);
 
                 if (result.Succeeded)
                 {
@@ -150,26 +150,26 @@ namespace lmsextreg.Pages.Account
                     ///////////////////////////////////////////////////////////////////
                    _eventLogService.LogEvent(EventTypeCodeConstants.LOGIN, user);                          
 
-                    Console.WriteLine("[Login][OnPostAsync] - Password Expired: " + (user.DatePasswordExpires <= DateTime.Now) );
+                    //Console.WriteLine("[Login][OnPostAsync] - Password Expired: " + (user.DatePasswordExpires <= DateTime.Now) );
                     if (user.DatePasswordExpires <= DateTime.Now)
                     {
-                        Console.WriteLine("[Login][OnPostAsync] - Password expired, redirecting to './Manage/ChangePassword' page");
+                        //Console.WriteLine("[Login][OnPostAsync] - Password expired, redirecting to './Manage/ChangePassword' page");
                         return RedirectToPage("./Manage/ChangePassword");
                     }
 
-                    Console.WriteLine("[Login][OnPostAsync] - ApplicationUser.TwoFactorEnabled: " + user.TwoFactorEnabled);
+                    //Console.WriteLine("[Login][OnPostAsync] - ApplicationUser.TwoFactorEnabled: " + user.TwoFactorEnabled);
                     if ( user.TwoFactorEnabled == false)
                     {
-                        Console.WriteLine("[Login][OnPostAsync] - Two-factor auth NOT enabled, redirecting to './Manage/EnableAuthenticator' page");
+                        //Console.WriteLine("[Login][OnPostAsync] - Two-factor auth NOT enabled, redirecting to './Manage/EnableAuthenticator' page");
                         return RedirectToPage("./Manage/EnableAuthenticator");
                     }
-                    Console.WriteLine("[Login][OnPostAsync] - Two-factor auth IS enabled");
+                    //Console.WriteLine("[Login][OnPostAsync] - Two-factor auth IS enabled");
 
                     return LocalRedirect(Url.GetLocalUrl(returnUrl));
                 }
                 if (result.RequiresTwoFactor)
                 {
-                    Console.WriteLine("[Login][OnPostAsync] - redirecting to './LoginWith2fa' page");
+                    //Console.WriteLine("[Login][OnPostAsync] - redirecting to './LoginWith2fa' page");
                     Input.RememberMe = false;
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
                 }

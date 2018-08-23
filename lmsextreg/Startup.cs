@@ -145,9 +145,13 @@ namespace lmsextreg
             services.AddScoped<IAuthorizationHandler, CanAccessProfileLinkHandler>();    
 
             // Register EventLogRepository
-            services.AddScoped<IEventLogRepository, EventLogRepository>();            
+            services.AddScoped<IEventLogRepository, EventLogRepository>();    
+
+            // Register ProgramEnrollmentRepository
+            services.AddScoped<IProgramEnrollmentRepository, ProgramEnrollmentRepository>();    
+
             // Register EventLogService
-            services.AddScoped<IEventLogService, EventLogService>();                
+            services.AddScoped<IEventLogService, EventLogService>();     
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

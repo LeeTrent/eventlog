@@ -105,11 +105,18 @@ namespace lmsextreg.Models
             sb.Append(this.EnrollmentStatus);                       
             sb.Append(";Student=");
             sb.Append(this.Student);
-            sb.Append(";Approver=");
-            sb.Append(this.Approver);  
+
+            ////////////////////////////////////////////////
+            // Approver can be null if status is 'PENDING'
+            ///////////////////////////////////////////////
+            if ( this.Approver != null)
+            {
+                sb.Append(";Approver=");
+                sb.Append(this.Approver);  
+            }
             sb.Append("]");                                      
 
             return sb.ToString();
-        }                   
+        }      
     }
 }

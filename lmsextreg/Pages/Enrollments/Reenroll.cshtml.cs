@@ -21,14 +21,20 @@ namespace lmsextreg.Pages.Enrollments
         private readonly lmsextreg.Data.ApplicationDbContext _context;
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IEmailSender _emailSender;
+        private readonly IEventLogService _eventLogService;
 
-        public ReenrollModel(lmsextreg.Data.ApplicationDbContext context, 
-                            UserManager<ApplicationUser> userMgr,
-                            IEmailSender emailSender)
+        public ReenrollModel
+        (
+                lmsextreg.Data.ApplicationDbContext context, 
+                UserManager<ApplicationUser> userMgr,
+                IEmailSender emailSender,
+                IEventLogService eventLogSvc
+        )
         {
             _context = context;
             _userManager = userMgr;
             _emailSender = emailSender;
+            _eventLogService = eventLogSvc;
         }
 
         public class InputModel
@@ -199,7 +205,6 @@ namespace lmsextreg.Pages.Enrollments
             ///////////////////////////////////////////////////////////////////            
             lvProgramEnrollment.EnrollmentHistory.Add(lvEnrollmentHistory);
 
-
             /////////////////////////////////////////////////////////////////
             // Update ProgramEnrollment Record with
             //  1. EnrollmentStatus of "WITHDRAWN"
@@ -242,8 +247,12 @@ namespace lmsextreg.Pages.Enrollments
                 string subject  = "Program Re-Enrollment Request (" + lmsProgram.LongName + ")";
                 string message  = student.FullName + " has requested to re-enroll in " + lmsProgram.LongName;
                 await _emailSender.SendEmailAsync(email, subject, message);
-            }                           
+            }                 
 
+            /////////////////////////////////////////////////////////////////////////////////
+            // Log the 'REENROLLMENT_REQUSTED' event
+            ////////////////////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent(EventTypeCodeConstants.REENROLLMENT_REQUSTED, student, lvProgramEnrollment);                       
 
             /////////////////////////////////////////////////////////////////
             // Redirect to Student Index Page

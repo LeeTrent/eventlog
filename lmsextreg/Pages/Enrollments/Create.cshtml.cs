@@ -141,6 +141,12 @@ namespace lmsextreg.Pages.Enrollments
             _context.ProgramEnrollments.Add(programEnrollment);
             await _context.SaveChangesAsync();
 
+            ///////////////////////////////////////////////////////////////////
+            // Log the 'ENROLLMENT_REQUSTED' event
+            ///////////////////////////////////////////////////////////////////
+            ApplicationUser student = await GetCurrentUserAsync();
+            _eventLogService.LogEvent(EventTypeCodeConstants.ENROLLMENT_REQUSTED, student, programEnrollment.ProgramEnrollmentID);                         
+
             ////////////////////////////////////////////////////////////////////////////////////
             // Send email notification to approvers who have their EmailNotify flag set to true
             ////////////////////////////////////////////////////////////////////////////////////
@@ -151,7 +157,6 @@ namespace lmsextreg.Pages.Enrollments
                                                 .AsNoTracking()
                                                 .ToListAsync(); 
 
-            ApplicationUser student = await GetCurrentUserAsync();
             foreach (ProgramApprover approverObj in approverList)
             {
                 string email    = approverObj.Approver.Email;
@@ -174,11 +179,6 @@ namespace lmsextreg.Pages.Enrollments
                 string message  = student.FullName + " has requested to enroll in " + lmsProgram.LongName;
                 await _emailSender.SendEmailAsync(email, subject, message);
             }               
-
-            ///////////////////////////////////////////////////////////////////
-            // Log the 'ENROLLMENT_REQUSTED' event
-            ///////////////////////////////////////////////////////////////////
-            _eventLogService.LogEvent(EventTypeCodeConstants.ENROLLMENT_REQUSTED, student);                         
 
             /////////////////////////////////////////////////////////////////
             // Redirect to Enrollmentl Index Page
