@@ -93,7 +93,7 @@ namespace lmsextreg.Models
         // Date that row was last updated
         ///////////////////////////////////////////////////////////
         public DateTime DateLastUpdated { get; set; }
-
+  
         public override String ToString()
         {
             StringBuilder sb = new StringBuilder();
@@ -105,18 +105,45 @@ namespace lmsextreg.Models
             sb.Append(this.EnrollmentStatus);                       
             sb.Append(";Student=");
             sb.Append(this.Student);
+            sb.Append(";Approver=");
+            sb.Append(this.Approver);  
+            sb.Append("]");                                      
 
-            ////////////////////////////////////////////////
-            // Approver can be null if status is 'PENDING'
-            ///////////////////////////////////////////////
+            return sb.ToString();
+        } 
+
+        public String ToEventLog()
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("ProgramEnrollment=[");
+
+            if ( this.LMSProgram != null)
+            {
+                sb.Append("LMS Program=");
+                sb.Append(this.LMSProgram.LongName);
+            }
+
+            if ( this.EnrollmentStatus != null )
+            {
+                sb.Append(";EnrollmentStatus=");
+                sb.Append(this.EnrollmentStatus.StatusLabel);                       
+            }
+
+            if ( this.Student != null)
+            {
+                sb.Append(";Student=");
+                sb.Append(this.Student.ToEventLog());
+            }
+
             if ( this.Approver != null)
             {
                 sb.Append(";Approver=");
-                sb.Append(this.Approver);  
+                sb.Append(this.Approver.ToEventLog());  
             }
             sb.Append("]");                                      
 
             return sb.ToString();
-        }      
+        }           
     }
 }

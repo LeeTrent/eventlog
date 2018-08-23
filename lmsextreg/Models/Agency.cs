@@ -1,3 +1,5 @@
+using System;
+using System.Text;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
@@ -22,5 +24,4 @@ namespace lmsextreg.Models
         public string OPMCode{ get; set; }
         public ICollection<SubAgency> SubAgencies { get; set; }
     }
-
 }

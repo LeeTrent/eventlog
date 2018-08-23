@@ -86,5 +86,29 @@ namespace lmsextreg.Data
 
             return sb.ToString();
         }        
+
+        public String ToEventLog()
+        {
+            StringBuilder sb = new StringBuilder();
+          
+            sb.Append("[");
+            sb.Append("UserName=");
+            sb.Append(this.UserName);
+            sb.Append(";Email=");
+            sb.Append(this.Email);
+            sb.Append(";LastName=");
+            sb.Append(this.LastName);   
+            sb.Append(";FirstName=");
+            sb.Append(this.FirstName);     
+            sb.Append(";MiddleName=");
+            sb.Append(this.MiddleName);           
+            sb.Append(";Agency=");
+            sb.Append(this.Agency.AgencyName);         
+            sb.Append(";SubAgencyID=");
+            sb.Append(this.SubAgency.SubAgencyName);   
+            sb.Append("]");                                      
+
+            return sb.ToString();            
+        }
     }
 }

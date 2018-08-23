@@ -63,7 +63,7 @@ namespace lmsextreg.Services
             sb.Append("User=");
             sb.Append(appUser);
             sb.Append("; ");
-            sb.Append(programEnrollment);
+            sb.Append(programEnrollment.ToEventLog());
 
             var eventLog = new EventLog
             {

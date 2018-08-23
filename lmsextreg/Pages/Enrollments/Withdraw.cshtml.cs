@@ -205,7 +205,9 @@ namespace lmsextreg.Pages.Enrollments
             _context.ProgramEnrollments.Update(lvProgramEnrollment);
             await _context.SaveChangesAsync();
 
-
+            //////////////////////////////////////////////////////////////////////////////
+            // Retrieve 'User as Student' for event logging and email notification purposes
+            //////////////////////////////////////////////////////////////////////////////
             ApplicationUser student = await GetCurrentUserAsync();
             
             /////////////////////////////////////////////////////////////////////////////////
