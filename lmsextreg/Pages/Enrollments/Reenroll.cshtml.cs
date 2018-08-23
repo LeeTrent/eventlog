@@ -216,6 +216,21 @@ namespace lmsextreg.Pages.Enrollments
             _context.ProgramEnrollments.Update(lvProgramEnrollment);
             await _context.SaveChangesAsync();
 
+            ////////////////////////////////////////////////////////////////////////////////
+            // Retrieve 'User as Student' for event logging and email notification purposes
+            ////////////////////////////////////////////////////////////////////////////////
+            ApplicationUser student = await GetCurrentUserAsync();
+
+            /////////////////////////////////////////////////////////////////////////////////
+            // Log the 'REENROLLMENT_REQUSTED' event
+            ////////////////////////////////////////////////////////////////////////////////
+            _eventLogService.LogEvent
+            (
+                EventTypeCodeConstants.REENROLLMENT_REQUSTED, 
+                student, 
+                lvProgramEnrollment.ProgramEnrollmentID
+            );                       
+
             ////////////////////////////////////////////////////////////////////////////////////
             // Send email notification to approvers who have their EmailNotify flag set to true
             ////////////////////////////////////////////////////////////////////////////////////
@@ -248,11 +263,6 @@ namespace lmsextreg.Pages.Enrollments
                 string message  = student.FullName + " has requested to re-enroll in " + lmsProgram.LongName;
                 await _emailSender.SendEmailAsync(email, subject, message);
             }                 
-
-            /////////////////////////////////////////////////////////////////////////////////
-            // Log the 'REENROLLMENT_REQUSTED' event
-            ////////////////////////////////////////////////////////////////////////////////
-            _eventLogService.LogEvent(EventTypeCodeConstants.REENROLLMENT_REQUSTED, student, lvProgramEnrollment);                       
 
             /////////////////////////////////////////////////////////////////
             // Redirect to Student Index Page
