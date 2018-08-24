@@ -201,7 +201,7 @@ namespace lmsextreg.Pages.Enrollments
             //  3. EnrollmentHistory (PENDING TO WiTHDRAWN)
             /////////////////////////////////////////////////////////////////
             lvProgramEnrollment.StatusCode = StatusCodeConstants.WITHDRAWN;
-            lvProgramEnrollment.ApproverUserId = _userManager.GetUserId(User);
+            //lvProgramEnrollment.ApproverUserId = _userManager.GetUserId(User);
             _context.ProgramEnrollments.Update(lvProgramEnrollment);
             await _context.SaveChangesAsync();
 

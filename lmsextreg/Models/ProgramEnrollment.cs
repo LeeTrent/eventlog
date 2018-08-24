@@ -101,11 +101,11 @@ namespace lmsextreg.Models
             sb.Append("ProgramEnrollment=[");
             sb.Append("LMS Program=");
             sb.Append(this.LMSProgram);
-            sb.Append(";EnrollmentStatus=");
+            sb.Append("; EnrollmentStatus=");
             sb.Append(this.EnrollmentStatus);                       
-            sb.Append(";Student=");
+            sb.Append("; Student=");
             sb.Append(this.Student);
-            sb.Append(";Approver=");
+            sb.Append("; Approver=");
             sb.Append(this.Approver);  
             sb.Append("]");                                      
 
@@ -126,19 +126,19 @@ namespace lmsextreg.Models
 
             if ( this.EnrollmentStatus != null )
             {
-                sb.Append(";EnrollmentStatus=");
+                sb.Append("; EnrollmentStatus=");
                 sb.Append(this.EnrollmentStatus.StatusLabel);                       
             }
 
             if ( this.Student != null)
             {
-                sb.Append(";Student=");
+                sb.Append("; Student=");
                 sb.Append(this.Student.ToEventLog());
             }
 
             if ( this.Approver != null)
             {
-                sb.Append(";Approver=");
+                sb.Append("; Approver=");
                 sb.Append(this.Approver.ToEventLog());  
             }
             sb.Append("]");                                      

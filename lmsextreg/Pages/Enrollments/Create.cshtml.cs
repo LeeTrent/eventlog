@@ -78,8 +78,8 @@ namespace lmsextreg.Pages.Enrollments
                     + "   WHERE \"StudentUserId\" = {0} "
                     + " )";
 
-            Console.WriteLine("SQL: ");
-            Console.WriteLine(sql);
+            //Console.WriteLine("SQL: ");
+            //Console.WriteLine(sql);
             var resultSet =  _context.LMSPrograms.FromSql(sql, userID).AsNoTracking();
 
             Console.WriteLine("resultSet: ");         

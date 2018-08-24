@@ -57,8 +57,8 @@ namespace lmsextreg.Pages.Approvals
 		                + "   WHERE \"ApproverUserId\" = {0} "
 	                    + " ) ";
 
-            Console.WriteLine("SQL: ");
-            Console.WriteLine(sql);                        
+            // Console.WriteLine("SQL: ");
+            // Console.WriteLine(sql);                        
 
             ProgramEnrollment  = await _dbContext.ProgramEnrollments
                                 .FromSql(sql, loggedInUserID)

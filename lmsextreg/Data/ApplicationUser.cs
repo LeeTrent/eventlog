@@ -70,17 +70,17 @@ namespace lmsextreg.Data
             sb.Append("[");
             sb.Append("UserName=");
             sb.Append(this.UserName);
-            sb.Append(";Email=");
+            sb.Append("; Email=");
             sb.Append(this.Email);
-            sb.Append(";LastName=");
+            sb.Append("; LastName=");
             sb.Append(this.LastName);   
-            sb.Append(";FirstName=");
+            sb.Append("; FirstName=");
             sb.Append(this.FirstName);     
-            sb.Append(";MiddleName=");
+            sb.Append("; MiddleName=");
             sb.Append(this.MiddleName);           
-            sb.Append(";AgencyID=");
+            sb.Append("; AgencyID=");
             sb.Append(this.AgencyID);         
-            sb.Append(";SubAgencyID=");
+            sb.Append("; SubAgencyID=");
             sb.Append(this.SubAgencyID);   
             sb.Append("]");                                      
 
@@ -94,34 +94,34 @@ namespace lmsextreg.Data
             sb.Append("[");
             sb.Append("UserName=");
             sb.Append(this.UserName);
-            sb.Append(";Email=");
+            sb.Append("; Email=");
             sb.Append(this.Email);
-            sb.Append(";LastName=");
+            sb.Append("; LastName=");
             sb.Append(this.LastName);   
-            sb.Append(";FirstName=");
+            sb.Append("; FirstName=");
             sb.Append(this.FirstName);     
-            sb.Append(";MiddleName=");
+            sb.Append("; MiddleName=");
             sb.Append(this.MiddleName);           
            
             if (this.Agency == null)
             {
-                sb.Append(";AgencyID=");
+                sb.Append("; AgencyID=");
                 sb.Append(this.AgencyID);  
             }
             else
             {
-                sb.Append(";Agency=");
+                sb.Append("; Agency=");
                 sb.Append(this.Agency.AgencyName);   
             }
       
             if (this.SubAgency == null)
             {
-                sb.Append(";SubAgencyID=");
+                sb.Append("; SubAgencyID=");
                 sb.Append(this.SubAgencyID);   
             }
             else
             {
-                sb.Append(";SubAgency=");
+                sb.Append("; SubAgency=");
                 sb.Append(this.SubAgency.SubAgencyName);              
             }
  

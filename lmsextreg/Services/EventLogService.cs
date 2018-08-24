@@ -37,6 +37,10 @@ namespace lmsextreg.Services
 
         public void LogEvent(string eventTypeCode, ApplicationUser appUser, ProgramEnrollment enrollment)
         {
+            Console.WriteLine("[EventLogService][LogEvent] - (ApplicationUser.ToString()):\n" + appUser);
+            Console.WriteLine("");
+            Console.WriteLine("[EventLogService][LogEvent] - (ApplicationUser.ToEventLog()):\n" + appUser);
+
             var sb = new StringBuilder();
             sb.Append("User=");
             sb.Append(appUser.ToString());
@@ -57,7 +61,22 @@ namespace lmsextreg.Services
 
         public void LogEvent(string eventTypeCode, ApplicationUser appUser, int programEnrollmentID)
         {
+            Console.WriteLine("");
+            Console.WriteLine("[EventLogService][LogEvent] - (ApplicationUser.ToString()):\n"
+                                + appUser);
+            Console.WriteLine("");
+            Console.WriteLine("[EventLogService][LogEvent] - (ApplicationUser.ToEventLog()):\n" 
+                                + appUser.ToEventLog());
+            Console.WriteLine("");
+            
             var programEnrollment = _programEnrollmentRepository.Retrieve(programEnrollmentID);
+
+            Console.WriteLine("[EventLogService][LogEvent] - (ApplicationUser.ToString()):\n" 
+                                + programEnrollment);
+            Console.WriteLine("");
+            Console.WriteLine("[EventLogService][LogEvent] - (ApplicationUser.ToEventLog()):\n" 
+                                + programEnrollment.ToEventLog());
+            Console.WriteLine("");
 
             var sb = new StringBuilder();
             sb.Append("User=");
