@@ -24,6 +24,7 @@ namespace lmsextreg.Services
 
         public Task SendEmailAsync(string email, string subject, string message)
         {
+            Console.WriteLine("[EmailSender][SendEmailAsync] = (Options.SendGridKey): " + Options.SendGridKey);
             if ( String.IsNullOrEmpty(Options.SendGridKey) )
             {
                 return ExecuteOnPrem(subject, message, email);
@@ -36,6 +37,8 @@ namespace lmsextreg.Services
 
         public Task ExecuteOnPrem(string subject, string message, string toEmail)
         {
+            Console.WriteLine("[EmailSender][ExecuteOnPrem]:" );
+
             var client = new SmtpClient
             {
                 Host = "smtp.gsa.gov",
@@ -57,6 +60,7 @@ namespace lmsextreg.Services
         }
         public Task ExecuteUsingSendGrid(string apiKey, string subject, string message, string email)
         {
+            Console.WriteLine("[EmailSender][ExecuteUsingSendGrid]:" );
             _logger.LogInformation("[EmailSender][ExecuteUsingSendGrid]");
             _logger.LogInformation("apiKey: '" + apiKey + "'");
 
